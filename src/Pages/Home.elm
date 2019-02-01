@@ -1,40 +1,57 @@
 module Pages.Home exposing (page)
 
-import Base.Messages exposing (..)
-import Base.Model exposing (Model)
-import Pages.Common exposing (h2)
+import Auth.View exposing (view)
+import Base.Messages exposing (BaseMsg(..))
+import Base.Model exposing (BaseModel)
+import Base.Updates exposing (authTranslator)
+import Html exposing (map)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Input as Input
+import Pages.Common exposing (h2)
 
-headingRow : Element Msg
+headingRow : Element BaseMsg
 headingRow =
-    row [ width fill, padding 10 ] [ dadJokesHeading ]
+    row []
+        [ column [ width <| fillPortion 8, padding 10 ] [ dadJokesHeading ]
+        , column [ width <| fillPortion 4, padding 10 ] [ dadJokesHeading ]
+        ]
 
-dadJokesHeading : Element Msg
+dadJokesHeading : Element BaseMsg
 dadJokesHeading =
     el (List.append h2 [ centerX ]) (Element.text "Dad Jokes")
 
-buttonRow : Element Msg
+buttonRow : Element BaseMsg
 buttonRow =
     row [ width fill, padding 10 ] [ quoteButton ]
 
-quoteButton : Element Msg
+quoteButton : Element BaseMsg
 quoteButton =
     Input.button [ centerX ]
         { label = text "Grab a joke!"
         , onPress = Just GetQuote
         }
 
-quoteRow : Model -> Element Msg
+quoteRow : BaseModel -> Element BaseMsg
 quoteRow model =
     row [ centerX ] [ paragraph [] [text model.quote] ]
 
-page : Model -> Element Msg
-page model =
-    column [ width fill ]
+mainContent : BaseModel -> Element BaseMsg
+mainContent model =
+    if model.authentication.authenticated then
+        authenticatedContent model
+    else
+        Element.map authTranslator (Auth.View.view model.authentication)
+
+authenticatedContent : BaseModel -> Element BaseMsg
+authenticatedContent model =
+    row [ width fill, height fill ]
         [ headingRow
         , buttonRow
         , quoteRow model
         ]
+
+page : BaseModel -> Element BaseMsg
+page model =
+    mainContent model

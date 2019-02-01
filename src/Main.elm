@@ -1,28 +1,23 @@
 module Main exposing (main)
 
-import Base.Messages exposing (..)
-import Base.Model exposing (Model)
+import Base.Messages exposing (BaseMsg)
+import Base.Model exposing (BaseModel)
+import Base.Updates exposing (update)
 import Browser exposing (..)
 import Element exposing (layout)
 import Pages.Home exposing (page)
 
-init : () -> (Model, Cmd Msg)
+init : () -> (BaseModel, Cmd BaseMsg)
 init _ =
-    ( Model "", Cmd.none )
+    ( Base.Model.init, Cmd.none )
 
-update : Msg -> Model -> (Model, Cmd Msg)
-update msg model =
-    case msg of
-        GetQuote ->
-            ( { model | quote = model.quote ++ "A quote! " }, Cmd.none )
-
-view : Model -> Document Msg
+view : BaseModel -> Document BaseMsg
 view model = {
         title = "Makenzie Ozias"
         , body = [ Element.layout [] <| page model ]
     }
 
-main : Program () Model Msg
+main : Program () BaseModel BaseMsg
 main =
     Browser.document
         { init = init
