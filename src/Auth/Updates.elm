@@ -148,6 +148,14 @@ checkExpiry model now =
         seconds < model.payload.exp
 
 
+----------
+-- Logout
+----------
+logout : Authentication -> ( Authentication, Cmd Msg )
+logout model =
+    update Logout model ""
+
+
 
 ----------
 -- Utils

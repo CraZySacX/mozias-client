@@ -2,15 +2,15 @@ module Auth.View exposing (view)
 
 import Auth.Messages exposing (..)
 import Auth.Model exposing (Authentication)
-import Pages.Common exposing (h2)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Input as Input
+import Styles.Styles exposing (h2)
 
 headingRow : Element Msg
 headingRow =
-    row [ width fill, padding 10 ] [ loginHeading ]
+    row [ width fill ] [ loginHeading ]
 
 loginHeading : Element Msg
 loginHeading =
@@ -18,7 +18,11 @@ loginHeading =
 
 buttonRow : Element Msg
 buttonRow =
-    row [ width fill, padding 10 ] [ usernameInput, passwordInput, loginButton ]
+    row [ width fill ]
+        [ usernameInput
+        , passwordInput
+        , loginButton
+        ]
 
 usernameInput : Element Msg
 usernameInput =
@@ -48,7 +52,4 @@ loginButton =
 
 view : Authentication -> Element Msg
 view model =
-    column [ width fill ]
-        [ headingRow
-        , buttonRow
-        ]
+    buttonRow

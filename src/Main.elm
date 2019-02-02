@@ -5,7 +5,7 @@ import Base.Model exposing (BaseModel)
 import Base.Updates exposing (update)
 import Browser exposing (..)
 import Element exposing (layout)
-import Pages.Home exposing (page)
+import Page.Layout exposing (pageLayout)
 
 init : () -> (BaseModel, Cmd BaseMsg)
 init _ =
@@ -14,7 +14,7 @@ init _ =
 view : BaseModel -> Document BaseMsg
 view model = {
         title = "Makenzie Ozias"
-        , body = [ Element.layout [] <| page model ]
+        , body = [ Element.layout [] <| pageLayout model ]
     }
 
 main : Program () BaseModel BaseMsg
