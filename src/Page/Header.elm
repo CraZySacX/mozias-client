@@ -1,8 +1,8 @@
 module Page.Header exposing (headerRow)
 
 import Auth.Messages exposing (InternalMsg(..))
-import Base.Messages exposing (BaseMsg(..))
-import Base.Model exposing (BaseModel)
+import Base.Messages exposing (Msg(..))
+import Base.Model exposing (Model)
 import Element exposing
     ( centerX
     , column
@@ -19,22 +19,22 @@ import Styles.Styles exposing (headerStyle, titleStyle, logoutStyle)
 ----------
 -- Header
 ----------
-headerRow : BaseModel -> Element BaseMsg
+headerRow : Model -> Element Msg
 headerRow model =
     row headerStyle [ titleColumn model, logoutColumn model ]
 
 
-titleColumn : BaseModel -> Element BaseMsg
+titleColumn : Model -> Element Msg
 titleColumn model =
      column (titleStyle model) [ header ]
 
 
-header : Element BaseMsg
+header : Element Msg
 header =
     el [ centerX ] <| text <| "Title"
 
 
-logoutColumn : BaseModel -> Element BaseMsg
+logoutColumn : Model -> Element Msg
 logoutColumn model =
     if model.authentication.authenticated then
         column logoutStyle [ logout ]
@@ -42,12 +42,12 @@ logoutColumn model =
         Element.none
 
 
-logout : Element BaseMsg
+logout : Element Msg
 logout =
     el [ centerX ] <| logoutButton
 
 
-logoutButton : Element BaseMsg
+logoutButton : Element Msg
 logoutButton =
     Input.button [ centerX ]
         { label = text "Logout"

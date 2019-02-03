@@ -1,7 +1,7 @@
 module Page.Layout exposing (pageLayout)
 
-import Base.Messages exposing (BaseMsg(..))
-import Base.Model exposing (BaseModel)
+import Base.Messages exposing (Msg(..))
+import Base.Model exposing (Model)
 import Element exposing (column, Element)
 import Page.Body exposing (bodyRow)
 import Page.Footer exposing (footerRow)
@@ -13,6 +13,6 @@ import Styles.Styles exposing (full)
 ----------
 -- Page Layout
 ----------
-pageLayout : BaseModel -> Element BaseMsg
+pageLayout : Model -> Element Msg
 pageLayout model =
     column full [ headerRow model, bodyRow model, footerRow model ]

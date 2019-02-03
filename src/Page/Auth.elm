@@ -1,44 +1,80 @@
-module Page.Auth exposing (authForm)
+module Page.Auth exposing (pageAuth)
 
-import Auth.Model exposing (Authentication)
-import Auth.Messages exposing (Msg(..))
-import Element exposing
-    ( centerX
-    , centerY
-    , column
-    , el
-    , Element
-    , fill
-    , fillPortion
-    , height
-    , rgba255
-    , row
-    , text
-    , width
-    )
-import Element.Background as Background
-import Element.Border as Border
-import Styles.Styles exposing (full)
+import Base.Messages exposing (Msg)
+import Base.Model exposing (Model)
+import Bootstrap.Form as Form
+import Bootstrap.Form.InputGroup as InputGroup
+import Bootstrap.Form.Input as Input
+import Html exposing (br, h1, Html, text)
 
 
 ----------
 -- Auth Form
 ----------
-authForm : Authentication -> Element Msg
-authForm _ =
-    row full
-        [ column [ height fill, width <| fillPortion 2 ] [ Element.none ]
-        , column
-            [ height fill
-            , width <| fillPortion 6
-            , Border.widthEach
-                { bottom = 0
-                , left = 1
-                , right = 1
-                , top = 0
-                }
-            , Background.color <| rgba255 0 100 0 0.5
-            ]
-            [ el [ centerX, centerY ] <| text "World!" ]
-        , column [ height fill, width <| fillPortion 2 ] [ Element.none ]
-        ]
+pageAuth : Model -> List (Html Msg)
+pageAuth _ =
+    [ h1 []
+        [ text "Login" ]
+        , InputGroup.config
+            (InputGroup.text [ Input.placeholder "username"])
+            |> InputGroup.predecessors
+                [ InputGroup.span [] [ text "@"] ]
+            |> InputGroup.view
+        , br [] []
+        , InputGroup.config
+            (InputGroup.text [ Input.placeholder "amount"])
+            |> InputGroup.predecessors
+                [ InputGroup.span [] [ text "$"] ]
+            |> InputGroup.successors
+                [ InputGroup.span [] [ text ".00"] ]
+            |> InputGroup.view
+    ]
+
+
+----------
+-- Old Auth Form
+----------
+-- authForm : Authentication -> Element Msg
+-- authForm _ =
+--     row full
+--         [ column spacer [ Element.none ]
+--         , column authStyle [ formCol ]
+--         , column spacer [ Element.none ]
+--         ]
+
+
+-- formCol : Element Msg
+-- formCol =
+--     column full
+--         [ usernameInput
+--         , passwordInput
+--         , loginButton
+--         ]
+
+
+-- usernameInput : Element Msg
+-- usernameInput =
+--     Input.username []
+--         { onChange = ForSelf << SetUsername
+--         , text = "username"
+--         , placeholder = Nothing
+--         , label = Input.labelLeft [] (Element.text "username")
+--         }
+
+
+-- passwordInput : Element Msg
+-- passwordInput =
+--     Input.newPassword []
+--         { onChange = ForSelf << SetPassword
+--         , text = "password"
+--         , placeholder = Nothing
+--         , label = Input.labelLeft [] (Element.text "password")
+--         , show = False
+--         }
+
+-- loginButton : Element Msg
+-- loginButton =
+--     Input.button [ centerX ]
+--         { label = text "Login"
+--         , onPress = Just (ForSelf Login)
+--         }

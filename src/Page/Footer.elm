@@ -1,7 +1,7 @@
 module Page.Footer exposing (footerRow)
 
-import Base.Messages exposing (BaseMsg)
-import Base.Model exposing (BaseModel)
+import Base.Messages exposing (Msg)
+import Base.Model exposing (Model)
 import Element exposing
     ( centerX
     , el
@@ -15,11 +15,11 @@ import Styles.Styles exposing (footerStyle)
 ----------
 -- Footer
 ----------
-footerRow : BaseModel -> Element BaseMsg
+footerRow : Model -> Element Msg
 footerRow _ =
     row footerStyle [ footer ]
 
 
-footer : Element BaseMsg
+footer : Element Msg
 footer =
     el [ centerX ] <| text <| "Footer"
