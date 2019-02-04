@@ -12,24 +12,28 @@ import Html exposing (br, h1, Html, text)
 -- Auth Form
 ----------
 pageAuth : Model -> List (Html Msg)
-pageAuth _ =
-    [ h1 []
-        [ text "Login" ]
-        , InputGroup.config
-            (InputGroup.text [ Input.placeholder "username"])
-            |> InputGroup.predecessors
-                [ InputGroup.span [] [ text "@"] ]
-            |> InputGroup.view
-        , br [] []
-        , InputGroup.config
-            (InputGroup.text [ Input.placeholder "amount"])
-            |> InputGroup.predecessors
-                [ InputGroup.span [] [ text "$"] ]
-            |> InputGroup.successors
-                [ InputGroup.span [] [ text ".00"] ]
-            |> InputGroup.view
-    ]
+pageAuth model =
+    [ h1 [] [ text "Login" ] , authForm model ]
 
+
+authForm : Model -> Html Msg
+authForm _ =
+    Form.form [] []
+
+
+-- , InputGroup.config
+--             (InputGroup.text [ Input.placeholder "username"])
+--             |> InputGroup.predecessors
+--                 [ InputGroup.span [] [ text "@"] ]
+--             |> InputGroup.view
+--         , br [] []
+--         , InputGroup.config
+--             (InputGroup.text [ Input.placeholder "amount"])
+--             |> InputGroup.predecessors
+--                 [ InputGroup.span [] [ text "$"] ]
+--             |> InputGroup.successors
+--                 [ InputGroup.span [] [ text ".00"] ]
+--             |> InputGroup.view
 
 ----------
 -- Old Auth Form
