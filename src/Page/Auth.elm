@@ -1,7 +1,7 @@
 module Page.Auth exposing (pageAuth)
 
-import Auth.Messages exposing (Msg(..), InternalMsg(..))
 import Base.Model exposing (Model)
+import Base.Messages exposing (Msg(..), AuthMsg(..))
 import Bootstrap.Button as Button
 import Bootstrap.Form as Form
 import Bootstrap.Form.InputGroup as InputGroup
@@ -28,7 +28,7 @@ authForm model =
         [ Form.group []
             [ Form.label [ for "emailAddress" ] [ text "Email" ]
             , InputGroup.config
-                ( InputGroup.text [ Input.placeholder "johndoe@gmail.com", Input.onInput <| ForSelf << SetUsername ] )
+                ( InputGroup.text [ Input.placeholder "johndoe@gmail.com", Input.onInput <| AuthMsg << SetUsername ] )
                 |> InputGroup.attrs [ id "emailAddress" ]
                 |> InputGroup.view
             , Form.help [] [ text "We'll never share your email with anyone else." ]
@@ -36,10 +36,10 @@ authForm model =
         , Form.group []
             [ Form.label [ for "password" ] [ text "Password" ]
             , InputGroup.config
-                ( InputGroup.password [ Input.placeholder "s3cr3t" ] )
+                ( InputGroup.password [ Input.placeholder "s3cr3t" , Input.onInput <| AuthMsg << SetPassword ] )
                 |> InputGroup.attrs [ id "password" ]
                 |> InputGroup.successors
-                    [ InputGroup.button [ Button.primary ] [ text "Login!"] ]
+                    [ InputGroup.button [ Button.primary, Button.onClick <| AuthMsg Login ] [ text "Login!"] ]
                 |> InputGroup.view
             ]
         ]

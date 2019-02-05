@@ -1,6 +1,5 @@
 module Page.Body exposing (mainContent)
 
-import Auth.Messages exposing (translator)
 import Base.Messages exposing (Msg)
 import Base.Model exposing (Model, Page(..))
 import Html exposing (Html)

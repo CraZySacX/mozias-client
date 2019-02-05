@@ -1,6 +1,5 @@
 module Base.Updates exposing (..)
 
-import Auth.Messages exposing (Translator, translator)
 import Auth.Model exposing (AuthError(..))
 import Auth.Updates exposing (update)
 import Base.Messages exposing (Msg(..))
@@ -8,15 +7,11 @@ import Base.Model exposing (Model, Page(..))
 import Bootstrap.Modal as Modal
 import Browser as Browser
 import Browser.Navigation as Navigation
-import Debug exposing (toString)
 import Http exposing (Error(..))
 import Jwt exposing (JwtError(..))
 import Url exposing (Url)
 import Url.Parser as UrlParser exposing (Parser, s, top)
 
-authTranslator : Translator Msg
-authTranslator =
-    translator { onInternalMessage = AuthMsg, onAuthSuccess = AuthSuccess, onAuthError = AuthError }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -33,18 +28,7 @@ update msg model =
                 newModel =
                     { model | authentication = updatedAuthModel }
             in
-                ( newModel, Cmd.map authTranslator authCmd )
-
-        AuthSuccess ->
-            ( model, Cmd.none )
-
-        AuthError error ->
-            ( Debug.log (case error of
-                HttpError httpError ->
-                    toString httpError
-
-                TokenError tokenError ->
-                    toString tokenError) model, Cmd.none)
+                ( newModel, authCmd )
 
         ClickedLink req ->
              case req of

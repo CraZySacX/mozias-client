@@ -1,20 +1,28 @@
-module Base.Messages exposing (Msg(..))
+module Base.Messages exposing (Msg(..), AuthMsg(..))
 
-import Auth.Messages exposing (InternalMsg)
-import Auth.Model exposing(AuthError)
+import Auth.Model exposing(AuthError, JwtPayload)
 import Bootstrap.Navbar as Navbar
 import Browser exposing (UrlRequest)
+import Http exposing (Error)
+import Jwt exposing (JwtError)
 import Url exposing (Url)
 
 type Msg
     = -- Parent to Child Messages
-      AuthMsg Auth.Messages.InternalMsg
+      AuthMsg AuthMsg
       -- Child to Parent Messages
-    | AuthError Auth.Model.AuthError
-    | AuthSuccess
     | GetQuote
     | UrlChange Url
     | ClickedLink UrlRequest
     | NavMsg Navbar.State
     | CloseModal
     | ShowModal
+
+type AuthMsg
+    = Login
+    | Logout
+    | SetPassword String
+    | SetUsername String
+    | AuthUserResult (Result Http.Error String)
+    | DecodeResult (Result JwtError JwtPayload)
+    | Authenticated Bool

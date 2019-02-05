@@ -1,7 +1,8 @@
 module Auth.Updates exposing (..)
 
-import Auth.Messages exposing (..)
 import Auth.Model exposing (Authentication, AuthError(..), JwtPayload)
+import Base.Messages exposing (Msg(..), AuthMsg(..))
+import Debug exposing (toString)
 import Http exposing (expectJson, jsonBody, post, request)
 import Json.Encode exposing (string, Value)
 import Json.Decode exposing(Decoder, field, string)
@@ -12,7 +13,7 @@ import Time exposing (now, Posix, posixToMillis)
 ----------
 -- Authentications Update Handling
 ----------
-update : InternalMsg -> Authentication -> String -> ( Authentication, Cmd Msg )
+update : AuthMsg -> Authentication -> String -> ( Authentication, Cmd Msg )
 update message auth baseUrl =
     case message of
         Login ->
@@ -48,16 +49,7 @@ update message auth baseUrl =
                     authError auth (TokenError error)
 
         Authenticated authenticated ->
-            let
-                nextCmd =
-                    case authenticated of
-                        True ->
-                            generateParentMsg AuthenticationSuccess
-
-                        False ->
-                            Cmd.none
-            in
-                ( { auth | authenticated = authenticated }, nextCmd )
+            ( { auth | authenticated = authenticated }, Cmd.none )
 
 
 
@@ -69,7 +61,7 @@ authUser model baseUrl =
     Http.post
         { url = (baseUrl ++ authUrl)
         , body = Http.jsonBody <| userEncoder model
-        , expect = Http.expectJson (ForSelf << AuthUserResult) tokenDecoder
+        , expect = Http.expectJson (AuthMsg << AuthUserResult) tokenDecoder
         }
 
 
@@ -97,7 +89,12 @@ tokenDecoder =
 ----------
 authError : Authentication -> AuthError -> ( Authentication, Cmd Msg )
 authError auth error =
-    ( { auth | username = "", password = "", token = "" }, generateParentMsg (AuthenticationError error) )
+    ( Debug.log (case error of
+                HttpError httpError ->
+                    toString httpError
+
+                TokenError tokenError ->
+                    toString tokenError) { auth | username = "", password = "", token = "" }, Cmd.none)
 
 
 
@@ -106,7 +103,7 @@ authError auth error =
 ----------
 decodeTokenCmd : String -> Cmd Msg
 decodeTokenCmd token =
-    Task.attempt (ForSelf << DecodeResult) (fromDecodeResult <| decodeToken tokenPayloadDecoder token)
+    Task.attempt (AuthMsg << DecodeResult) (fromDecodeResult <| decodeToken tokenPayloadDecoder token)
 
 
 fromDecodeResult : Result JwtError JwtPayload -> Task JwtError JwtPayload
@@ -137,7 +134,7 @@ tokenPayloadDecoder =
 ----------
 isAuthenticated : Authentication -> Cmd Msg
 isAuthenticated model =
-    Task.perform (ForSelf << Authenticated << checkExpiry model) Time.now
+    Task.perform (AuthMsg << Authenticated << checkExpiry model) Time.now
 
 checkExpiry : Authentication -> Posix -> Bool
 checkExpiry model now =
@@ -154,12 +151,3 @@ checkExpiry model now =
 logout : Authentication -> ( Authentication, Cmd Msg )
 logout model =
     update Logout model ""
-
-
-
-----------
--- Utils
-----------
-generateParentMsg : ExternalMsg -> Cmd Msg
-generateParentMsg externalMsg =
-    Task.perform ForParent (Task.succeed externalMsg)
