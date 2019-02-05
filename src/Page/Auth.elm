@@ -1,11 +1,17 @@
 module Page.Auth exposing (pageAuth)
 
-import Base.Messages exposing (Msg)
+import Auth.Messages exposing (Msg(..), InternalMsg(..))
 import Base.Model exposing (Model)
+import Bootstrap.Button as Button
 import Bootstrap.Form as Form
 import Bootstrap.Form.InputGroup as InputGroup
 import Bootstrap.Form.Input as Input
+import Bootstrap.Grid.Col as Col
+import Bootstrap.Grid.Row as Row
+import Bootstrap.Text as Text
+import Bootstrap.Utilities.Flex as Flex
 import Html exposing (br, h1, Html, text)
+import Html.Attributes exposing (class, for, id)
 
 
 ----------
@@ -17,23 +23,26 @@ pageAuth model =
 
 
 authForm : Model -> Html Msg
-authForm _ =
-    Form.form [] []
-
-
--- , InputGroup.config
---             (InputGroup.text [ Input.placeholder "username"])
---             |> InputGroup.predecessors
---                 [ InputGroup.span [] [ text "@"] ]
---             |> InputGroup.view
---         , br [] []
---         , InputGroup.config
---             (InputGroup.text [ Input.placeholder "amount"])
---             |> InputGroup.predecessors
---                 [ InputGroup.span [] [ text "$"] ]
---             |> InputGroup.successors
---                 [ InputGroup.span [] [ text ".00"] ]
---             |> InputGroup.view
+authForm model =
+    Form.form []
+        [ Form.group []
+            [ Form.label [ for "emailAddress" ] [ text "Email" ]
+            , InputGroup.config
+                ( InputGroup.text [ Input.placeholder "johndoe@gmail.com", Input.onInput <| ForSelf << SetUsername ] )
+                |> InputGroup.attrs [ id "emailAddress" ]
+                |> InputGroup.view
+            , Form.help [] [ text "We'll never share your email with anyone else." ]
+            ]
+        , Form.group []
+            [ Form.label [ for "password" ] [ text "Password" ]
+            , InputGroup.config
+                ( InputGroup.password [ Input.placeholder "s3cr3t" ] )
+                |> InputGroup.attrs [ id "password" ]
+                |> InputGroup.successors
+                    [ InputGroup.button [ Button.primary ] [ text "Login!"] ]
+                |> InputGroup.view
+            ]
+        ]
 
 ----------
 -- Old Auth Form

@@ -1,5 +1,6 @@
 module Page.Body exposing (mainContent)
 
+import Auth.Messages exposing (translator)
 import Base.Messages exposing (Msg)
 import Base.Model exposing (Model, Page(..))
 import Html exposing (Html)
@@ -13,8 +14,8 @@ import Page.NotFound exposing (pageNotFound)
 
 mainContent : Model -> Html Msg
 mainContent model =
-    Grid.container [] <|
-        if model.authentication.authenticated then
+    if model.authentication.authenticated then
+        Grid.container [] <|
             case model.page of
                 Home ->
                     pageHome model
@@ -27,5 +28,5 @@ mainContent model =
 
                 NotFound ->
                     pageNotFound
-        else
-            pageAuth model
+    else
+        Grid.container [] <| pageAuth model
