@@ -2,8 +2,7 @@ module Auth.Updates exposing (..)
 
 import Auth.Model exposing (Authentication, AuthError(..), JwtPayload)
 import Base.Messages exposing (Msg(..), AuthMsg(..))
-import Debug exposing (toString)
-import Http exposing (expectJson, jsonBody, post, request)
+import Http exposing (Error(..), expectJson, jsonBody, post, request)
 import Json.Encode exposing (string, Value)
 import Json.Decode exposing(Decoder, field, string)
 import Jwt exposing (decodeToken, JwtError)
@@ -89,12 +88,17 @@ tokenDecoder =
 ----------
 authError : Authentication -> AuthError -> ( Authentication, Cmd Msg )
 authError auth error =
-    ( Debug.log (case error of
+    let
+        blah = case error of
                 HttpError httpError ->
-                    toString httpError
+                    case httpError of
+                        BadUrl url -> ""
+                        _ -> ""
 
                 TokenError tokenError ->
-                    toString tokenError) { auth | username = "", password = "", token = "" }, Cmd.none)
+                    ""
+    in
+        ({ auth | username = "", password = "", token = "" }, Cmd.none)
 
 
 
