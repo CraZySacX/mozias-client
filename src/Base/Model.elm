@@ -18,7 +18,7 @@ type alias Model =
 init: Navigation.Key -> Navbar.State -> Model
 init key navState =
     { quote = ""
-    , baseUrl = "https://www.makenzieozias.com/api/v1"
+    , baseUrl = "/api/v1"
     , authentication = defaultAuthentication
     , page = Home
     , modalVisibility= Modal.hidden
