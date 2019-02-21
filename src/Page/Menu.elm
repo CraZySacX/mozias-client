@@ -1,7 +1,8 @@
 module Page.Menu exposing (menu)
 
 import Base.Model exposing (Model)
-import Base.Messages exposing (Msg(..))
+import Base.Messages exposing (Msg(..), AuthMsg(..))
+import Bootstrap.Button as Button
 import Bootstrap.Navbar as Navbar
 import Html exposing (Html, text)
 import Html.Attributes exposing (href)
@@ -15,5 +16,12 @@ menu model =
         |> Navbar.items
             [ Navbar.itemLink [ href "#getting-started" ] [ text "Getting started" ]
             , Navbar.itemLink [ href "#modules" ] [ text "Modules" ]
+            ]
+        |> Navbar.customItems
+            [
+                if model.authentication.authenticated then
+                    Navbar.customItem <| Button.button [ Button.primary, Button.onClick <| AuthMsg Logout ] [ text "Logout" ]
+                else
+                    Navbar.customItem <| text ""
             ]
         |> Navbar.view model.navState
