@@ -78,6 +78,6 @@ routeParser : Parser (Page -> a) a
 routeParser =
     UrlParser.oneOf
         [ UrlParser.map Home top
-        , UrlParser.map GettingStarted (s "getting-started")
-        , UrlParser.map Modules (s "modules")
+        , UrlParser.map Art (s "art")
+        , UrlParser.map Modules (s "writing")
         ]

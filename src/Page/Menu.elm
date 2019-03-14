@@ -14,8 +14,8 @@ menu model =
         |> Navbar.container
         |> Navbar.brand [ href "#" ] [ text "Makenzie Ozias" ]
         |> Navbar.items
-            [ Navbar.itemLink [ href "#getting-started" ] [ text "Getting started" ]
-            , Navbar.itemLink [ href "#modules" ] [ text "Modules" ]
+            [ Navbar.itemLink [ href "#art" ] [ text "Art" ]
+            , Navbar.itemLink [ href "#writing" ] [ text "Writing" ]
             ]
         |> Navbar.customItems
             [

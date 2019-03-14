@@ -15,13 +15,13 @@ pageHome model =
     , Grid.row []
         [ Grid.col []
             [ Card.config [ Card.outlinePrimary ]
-                |> Card.headerH4 [] [ text "Getting started" ]
+                |> Card.headerH4 [] [ text "Art" ]
                 |> Card.block []
-                    [ Block.text [] [ text "Getting started is real easy. Just click the start button." ]
+                    [ Block.text [] [ text "My Art" ]
                     , Block.custom <|
                         Button.linkButton
-                            [ Button.primary, Button.attrs [ href "#getting-started" ] ]
-                            [ text "Start" ]
+                            [ Button.primary, Button.attrs [ href "#art" ] ]
+                            [ text "Art" ]
                     ]
                 |> Card.view
             ]
@@ -32,7 +32,7 @@ pageHome model =
                     [ Block.text [] [ text "Check out the modules overview" ]
                     , Block.custom <|
                         Button.linkButton
-                            [ Button.primary, Button.attrs [ href "#modules" ] ]
+                            [ Button.primary, Button.attrs [ href "#writing" ] ]
                             [ text "Module" ]
                     ]
                 |> Card.view

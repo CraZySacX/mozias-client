@@ -5,7 +5,7 @@ import Base.Model exposing (Model, Page(..))
 import Html exposing (Html)
 import Bootstrap.Grid as Grid
 import Page.Auth exposing (pageAuth)
-import Page.GettingStarted exposing (pageGettingStarted)
+import Page.Art exposing (pageArt)
 import Page.Home exposing (pageHome)
 import Page.Modules exposing (pageModules)
 import Page.NotFound exposing (pageNotFound)
@@ -19,8 +19,8 @@ mainContent model =
                 Home ->
                     pageHome model
 
-                GettingStarted ->
-                    pageGettingStarted model
+                Art ->
+                    pageArt model
 
                 Modules ->
                     pageModules model

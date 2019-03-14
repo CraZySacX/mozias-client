@@ -28,6 +28,6 @@ init key navState =
 
 type Page
     = Home
-    | GettingStarted
+    | Art
     | Modules
     | NotFound

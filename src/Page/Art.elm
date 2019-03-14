@@ -1,4 +1,4 @@
-module Page.GettingStarted exposing (pageGettingStarted)
+module Page.Art exposing (pageArt)
 
 import Base.Model exposing (Model)
 import Base.Messages exposing (Msg(..))
@@ -7,9 +7,9 @@ import Html exposing (h2, Html, text)
 import Html.Events exposing (onClick)
 
 
-pageGettingStarted : Model -> List (Html Msg)
-pageGettingStarted model =
-    [ h2 [] [ text "Getting started" ]
+pageArt : Model -> List (Html Msg)
+pageArt model =
+    [ h2 [] [ text "My Art" ]
     , Button.button
         [ Button.success
         , Button.large
